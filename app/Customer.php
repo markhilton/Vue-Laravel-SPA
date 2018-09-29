@@ -2,7 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+// MongoDB
+use Jenssegers\Mongodb\Eloquent\Model as Model;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {

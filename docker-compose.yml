@@ -1,0 +1,138 @@
+version: "3"
+
+services:
+
+  mongodb:
+    hostname: mongodb
+    container_name: mongodb
+    image: mongo:latest
+    volumes:
+      - mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+    env_file:
+      - ./k8s/mongodb/.env
+
+### Redis Container #########################################
+  redis:
+    hostname: redis
+    container_name: redis
+    image: redis:latest
+    networks:
+      - backend
+
+### Composer Container ######################################
+  composer:
+    hostname: composer
+    container_name: composer
+    image: crunchgeek/composer:7.2
+    working_dir: /app
+    command: [ "bash", "-c", "composer install && touch /tmp/log && tail -f /tmp/log" ]
+    volumes:
+      - ./:/app
+      - composer:/app/vendor
+
+### NODE Container ##########################################
+  node:
+    hostname: node
+    container_name: node
+    image: node:latest
+    command: [ "bash", "-c", "npm i && npm audit fix && npm run watch" ]
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+      - node:/app/node_modules
+      # node may need composer vendor libs
+      - composer:/app/vendor
+    depends_on:
+      - composer
+
+### PHP-CLI Container #######################################
+  worker:
+    hostname: worker
+    container_name: worker
+    image: crunchgeek/php-fpm:7.2-combo
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+      - ./k8s:/config
+      - storage:/app/storage
+      - composer:/app/vendor
+      # null path for migrations (because we dont need them with MongoDB)
+      - migrations:/app/database/migrations
+    depends_on:
+      - redis
+      - composer
+    networks:
+      - backend
+    env_file:
+      - .env
+      - ./k8s/mongodb/.env
+      - ./k8s/php/cli/.env
+
+### PHP-FPM Container #######################################
+  backend:
+    hostname: backend
+    container_name: backend
+    image: crunchgeek/php-fpm:7.2-combo
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+      - ./k8s/php/fpm:/config
+      - storage:/app/storage
+      - composer:/app/vendor
+    depends_on:
+      - redis
+      - node
+      - composer
+    networks:
+      - backend
+    env_file:
+      - ./k8s/mongodb/.env
+      - ./k8s/php/fpm/.env
+
+### Nginx Server Container ##################################
+  frontend:
+    hostname: frontend
+    container_name: frontend
+    image: crunchgeek/nginx-pagespeed:latest
+    working_dir: /app
+    volumes:
+      - ./public:/app/public:cached
+      - ./k8s/nginx:/config
+      - storage:/app/storage
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - frontend
+      - backend
+    env_file:
+      - ./k8s/nginx/.env
+
+### Networks Setup ##########################################
+networks:
+  frontend:
+    driver: "bridge"
+  backend:
+    driver: "bridge"
+
+### Volumes Setup ###########################################
+volumes:
+  mongo:
+    driver: "local"
+
+  node:
+    driver: "local"
+
+  composer:
+    driver: "local"
+
+  storage:
+    driver: "local"
+
+  migrations:
+    driver: "local"

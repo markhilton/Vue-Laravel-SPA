@@ -1,0 +1,13 @@
+#
+# Laravel task scheduler
+#
+# ATTENTION: 
+# crobtab sh shell requires:
+# - a full path to php cli interpreter
+# - current dir change to laravel artisan
+# - an empty line is required at the end of this file for a valid cron file
+#
+# if you redirect output with `>> /var/log/supervisor/supervisord.log`
+# make sure user `php-cli` is able to write to it or the cron job wont run
+#
+* * * * * php-cli 	cd /app && /usr/local/bin/php artisan schedule:run >> /tmp/stdout.log 2>&1

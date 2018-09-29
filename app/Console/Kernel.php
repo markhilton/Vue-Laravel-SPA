@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\HeartBeat::class,
     ];
 
     /**
@@ -24,8 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('heartbeat:check')
+            ->everyMinute()
+            ->onOneServer()
+            ->withoutOverlapping()
+            ->appendOutputTo('/tmp/stdout.log')
+        ;
     }
 
     /**

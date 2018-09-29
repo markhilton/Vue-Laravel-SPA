@@ -1,14 +1,31 @@
 <?php
 
+// issues with JWTAuth and MongoDB
+// https://github.com/jenssegers/laravel-mongodb/issues/1460
+// https://gist.github.com/bramnauta/513ca76f4ff7811583fe91372ce6ddab
+
 namespace App;
 
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+// MongoDB
+use Jenssegers\Mongodb\Eloquent\Model as Model;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+
+// JWT
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+#use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Model implements JWTSubject, AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use Notifiable;
+    use SoftDeletes, Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,6 +34,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name', 'email', 'password',
+        'photo_url'
     ];
 
     /**
