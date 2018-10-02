@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,27 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
+    /**
+     * Register new account.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register()
+    {
+        if (request('password') == '' || request('password') != request('confirm')) {
+            return response([ 'error' => [ 'password' => 'Provided passwords do not match!' ] ], 400);
+        }
+
+        $response = User::create([
+            'name'     => request('name'),
+            'email'    => request('email'),
+            'password' => bcrypt(request('password')),
+        ]);
+
+        return $response;
     }
 
     /**
