@@ -134,7 +134,7 @@
                     .then(response => {
                         this.processing = false
 						// sweet alert confirmation
-                        // this.$router.push({ path: '/login' });
+                        this.$router.push({ path: '/login' });
                     })
                     .catch(error => {
                         this.processing = false
