@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('register', 'AuthController@register');
     Route::post('login',    'AuthController@login');
     Route::post('logout',   'AuthController@logout');
@@ -22,9 +22,7 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('sites',  'SiteController@index');
-    Route::post('sites', 'SiteController@store');
-    // Route::resource('sites', 'SiteController');
+    Route::resource('sites', 'SiteController');
 
     Route::get('customers', 'CustomersController@all');
     Route::get('customers/{id}', 'CustomersController@get');

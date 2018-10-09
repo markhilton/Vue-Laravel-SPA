@@ -1,7 +1,17 @@
 <template>
 	<div>
-		<site-create :dialog="createSite" @reload="getDataFromApi()" @close="createSite = false" />
-		<site-create :dialog="createSite" @reload="getDataFromApi()" @close="createSite = false" />
+		<site-create
+			:dialog="createSite"
+			@reload="getDataFromApi()"
+			@close="createSite = false"
+		/>
+
+		<site-delete
+			:dialog="deleteSite"
+			:site_id="site_id"
+			@reload="getDataFromApi()"
+			@close="deleteSite = false"
+		/>
 
 		<v-card>
 			<!-- dialog activator button -->
@@ -155,7 +165,9 @@
 		components: { SiteCreate, SiteUpdate, SiteDelete, TableHeader },
 		data () {
 			return {
+				site_id: null,
 				createSite: false,
+				deleteSite: false,
 				snackbar:    false, // https://vuetifyjs.com/en/components/snackbars
 				search:      '',
 				error:       false,
@@ -296,8 +308,9 @@
 			},
 
 			deleteItem(site_id) {
-				this.$eventBus.$emit('site-delete', site_id)
-			},
+				this.site_id = site_id
+				this.deleteSite = true
+			}
 		}
 	}
 </script>
