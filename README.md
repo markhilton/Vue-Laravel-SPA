@@ -8,7 +8,7 @@ Laravel single page application build with VUE & [VuetifyJs](https://vuetifyjs.c
 - [Pusher](https://pusher.com/) push notifications
 - [MongoDB](https://www.mongodb.com/) to forget database migrations and move on
 
-## Local deployment
+### Local deployment
 
 ```bash
 # clone this repository
@@ -28,7 +28,14 @@ php artisan jwt:secret
 docker-compose up
 ```
 
-## Production deployment
+give it some time after first, initial deployment for [Composer](https://getcomposer.org/)
+and [NPM](https://www.npmjs.com/) to download all required vendor libraries and packages.
+The node container will watch for file changes as you work with VUE components and automatically
+mix `app.js`, `app.css` files as needed and create new `mix-manifest.json`.
+
+You can watch progress on docker-compose log output.
+
+### Production deployment
 
 I work with [Google Cloud](https://cloud.google.com/) [GKE](https://cloud.google.com/kubernetes-engine/) and usually leverage
 [Google Cloud Build](https://cloud.google.com/cloud-build/) to automatically build my app images when the code is pushed to repository and tagged,
@@ -42,7 +49,16 @@ I will add my [Helm](https://helm.sh/) chart for Kubernetes deployment soon.
 his [repository](https://github.com/AfikDeri/Vue-Laravel-SPA]) which I forked
 and some great [YouTube tutorials](https://www.youtube.com/watch?v=Jd1RW-0lQOs&t=13s)
 
-# Troubleshooting
+## FAQ
+
+### Why use own docker images instead [Laradock](https://github.com/laradock/laradock)?
+I've build my own [Nginx](https://github.com/markhilton/docker-nginx-pagespeed) and
+[PHP](https://github.com/markhilton/docker-php-fpm) Docker containers because I wanted to have out of the box,
+full-blown images I can control just with environment variables without having to build them every time I start a new project.
+They are not light-weight, rather have all necessary PHP extensions or Nginx modules I ever needed.
+
+
+## Troubleshooting
 
 Don't worry about [Laravel route error](https://stackoverflow.com/questions/45266254/laravel-unable-to-prepare-route-for-serialization-uses-closure) during containers initialization.
 ```
