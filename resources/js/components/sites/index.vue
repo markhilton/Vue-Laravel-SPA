@@ -57,7 +57,7 @@
 				<template slot="items" slot-scope="props">
 					<td class="text-xs-left">
 						<div>{{ props.item.name }}</div>
-						<small class="grey--text">{{ props.item.slug }}.gyrbox.site</small>
+						<small class="grey--text">{{ props.item.slug }}.{{ user.app.url }}</small>
 					</td>
 
 
@@ -134,7 +134,7 @@
 									<v-flex justify-left>Edit</v-flex>
 								</v-btn>
 
-								<v-btn flat block :href="'http://'+ props.item.slug +'.gyrbox.site'" target="_blank">
+								<v-btn flat block :href="'http://' + props.item.slug + '.' + user.app.url" target="_blank">
 									<v-icon left>remove_red_eye</v-icon>
 									<v-flex justify-left>Visit</v-flex>
 								</v-btn>
@@ -311,6 +311,11 @@
 				this.site_id = site_id
 				this.deleteSite = true
 			}
-		}
+		},
+		computed: {
+            user() {
+                return this.$store.getters.currentUser
+            }
+        }
 	}
 </script>

@@ -2,7 +2,7 @@
     <v-list>
         <div class="text-xs-center ma-4">
             <v-icon size="50">pages</v-icon>
-            <h2 class="grey--text">MY APP</h2>
+            <h2 class="grey--text">{{ user.app.name }}</h2>
         </div>
 
 
@@ -73,7 +73,7 @@
             </v-list-tile>
 
 
-            <v-list-tile class="ml-5" href="/invoices">
+            <v-list-tile class="ml-5" to="/invoices">
                 <v-list-tile-action>
                     <v-icon>local_library</v-icon>
                 </v-list-tile-action>
@@ -88,57 +88,58 @@
 
 
         <!-- developers accounts only -->
-            <v-list-group prepend-icon="dashboard">
-                <v-list-tile slot="activator">
-                    <v-list-tile-title>Admin Panel</v-list-tile-title>
-                </v-list-tile>
+        <v-list-group prepend-icon="dashboard">
+            <v-list-tile slot="activator">
+                <v-list-tile-title>Admin Panel</v-list-tile-title>
+            </v-list-tile>
 
-                <v-list-tile class="ml-5" href="/spark/kiosk#users">
-                    <v-list-tile-action>
-                        <v-icon>group</v-icon>
-                    </v-list-tile-action>
+            <v-list-tile class="ml-5" to="/users">
+                <v-list-tile-action>
+                    <v-icon>group</v-icon>
+                </v-list-tile-action>
 
-                    <v-list-tile-content>
-                        <v-list-tile-title>Users</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <v-list-tile-content>
+                    <v-list-tile-title>Users</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
 
-                <v-list-tile class="ml-5" href="/spark/kiosk#announcements">
-                    <v-list-tile-action>
-                        <v-icon>record_voice_over</v-icon>
-                    </v-list-tile-action>
+            <v-list-tile class="ml-5" to="/announcements">
+                <v-list-tile-action>
+                    <v-icon>record_voice_over</v-icon>
+                </v-list-tile-action>
 
-                    <v-list-tile-content>
-                        <v-list-tile-title>Announcements</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <v-list-tile-content>
+                    <v-list-tile-title>Announcements</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
 
-                <v-list-tile class="ml-5" href="/spark/kiosk#metrics">
-                    <v-list-tile-action>
-                        <v-icon>trending_up</v-icon>
-                    </v-list-tile-action>
+            <v-list-tile class="ml-5" to="/metrics">
+                <v-list-tile-action>
+                    <v-icon>trending_up</v-icon>
+                </v-list-tile-action>
 
-                    <v-list-tile-content>
-                        <v-list-tile-title>Metrics</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list-group>
+                <v-list-tile-content>
+                    <v-list-tile-title>Metrics</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list-group>
 
-                <v-list-tile href="#" @click="openSupportDialog()">
-                    <v-list-tile-action>
-                        <v-icon>mail</v-icon>
-                    </v-list-tile-action>
+        <v-list-tile to="/support">
+            <v-list-tile-action>
+                <v-icon>mail</v-icon>
+            </v-list-tile-action>
 
-                    <v-list-tile-content>
-                        <v-list-tile-title>Contact Support</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+            <v-list-tile-content>
+                <v-list-tile-title>Contact Support</v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
     </v-list>
 </template>
 
 <script>
 	export default {
         name: 'drawer',
+        props: ['user'],
 
 		data () {
 			return {

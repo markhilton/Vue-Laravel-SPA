@@ -40,3 +40,10 @@ docker-compose up -d
 This project is made for my youtube tutorial on "Create a SPA with Vue.JS 2, Vue-Router, Vuex and Laravel 5.6".
 
 ![App Example](https://media.giphy.com/media/9JkdzNeLr0Jos5CYQk/giphy.gif)
+
+# Troubleshooting
+
+Don't worry about Laravel route error during containers initialization.
+```
+LogicException  : Unable to prepare route [{any}] for serialization. Uses Closure.
+```

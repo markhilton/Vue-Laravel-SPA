@@ -98,7 +98,27 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
+            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'user'         => $this->getCurrentUser()
         ]);
     }
+
+    /**
+     * Get user payload.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function getCurrentUser()
+    {
+        $user = auth()->user();
+        $user->app = [
+            'name' => config('app.name'),
+            'url'  => 'localhost'
+        ];
+
+        return $user;
+    }
+
 }

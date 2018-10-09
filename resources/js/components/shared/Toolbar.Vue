@@ -2,7 +2,7 @@
 	<div>
 		<!-- navigation drawer -->
 		<v-navigation-drawer v-model="drawer" app temporary>
-			<drawer></drawer>
+			<drawer :user="currentUser"></drawer>
 		</v-navigation-drawer>
 
 
@@ -51,7 +51,7 @@
 							<!-- account impersonator -->
 							<v-list-tile-action v-if="impersonator">
 								<v-tooltip bottom>
-									<v-btn fab small dark slot="activator" color="primary" href="/spark/kiosk/users/stop-impersonating">
+									<v-btn fab small dark slot="activator" color="primary" to="/spark/kiosk/users/stop-impersonating">
 										<v-icon>exit_to_app</v-icon>
 									</v-btn>
 									<span>Stop impersonating username</span>

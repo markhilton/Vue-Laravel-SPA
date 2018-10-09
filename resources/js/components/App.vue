@@ -3,7 +3,6 @@
         <!-- toolbar only for authenticated users -->
 		<toolbar v-if="isLoggedIn()" />
 
-        <!-- <Header/> -->
         <v-content>
             <router-view></router-view>
         </v-content>
