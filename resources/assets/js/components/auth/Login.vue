@@ -4,16 +4,7 @@
 			<v-card flat>
 
 				<v-form>
-					<div v-if="! errorMessage">
-						<v-card-title class="justify-center">
-							<v-icon color="blue-grey darken-2" size="47">
-								account_circle
-							</v-icon>
-						</v-card-title>
-					</div>
-
-
-					<div v-else>
+					<div v-if="errorMessage">
 						<v-alert
 							v-if="errorMessage"
 							:value="true"
@@ -23,6 +14,13 @@
 						>
 							Provided username or password is invalid!
 						</v-alert>
+					</div>
+					<div v-else>
+						<v-card-title class="justify-center hidden-sm-only">
+							<v-icon color="blue-grey darken-2" size="47">
+								account_circle
+							</v-icon>
+						</v-card-title>
 					</div>
 
 
@@ -106,7 +104,7 @@
                     .then((res) => {
                         this.processing = false
                         this.$store.commit('loginSuccess', res);
-                        this.$router.push({ path: '/' });
+                        this.$router.push({ path: '/sites' });
                     })
                     .catch((error) => {
                         this.processing   = false

@@ -1764,8 +1764,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -1793,7 +1791,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["b" /* login */])(this.$data.login).then(function (res) {
                 _this.processing = false;
                 _this.$store.commit('loginSuccess', res);
-                _this.$router.push({ path: '/' });
+                _this.$router.push({ path: '/sites' });
             }).catch(function (error) {
                 _this.processing = false;
                 _this.errorMessage = error;
@@ -2157,6 +2155,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -2182,9 +2182,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.processing = false;
                 // sweet alert confirmation
                 // this.$router.push({ path: '/login' });
-            }).catch(function (errors) {
+            }).catch(function (error) {
                 _this.processing = false;
-                _this.errors = errors;
+                _this.errors = error.data.error;
             });
         },
         close: function close() {
@@ -2696,6 +2696,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shared/TableHeader.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	name: 'table-header',
+	props: ['props', 'pagination']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shared/Toolbar.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3079,6 +3122,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__update___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__update__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__delete__ = __webpack_require__("./resources/assets/js/components/sites/delete.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__delete___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__delete__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_TableHeader__ = __webpack_require__("./resources/assets/js/components/shared/TableHeader.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_TableHeader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__shared_TableHeader__);
 //
 //
 //
@@ -3224,6 +3269,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 
@@ -3231,7 +3278,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	name: 'sites',
-	components: { SiteCreate: __WEBPACK_IMPORTED_MODULE_0__create___default.a, SiteUpdate: __WEBPACK_IMPORTED_MODULE_1__update___default.a, SiteDelete: __WEBPACK_IMPORTED_MODULE_2__delete___default.a },
+	components: { SiteCreate: __WEBPACK_IMPORTED_MODULE_0__create___default.a, SiteUpdate: __WEBPACK_IMPORTED_MODULE_1__update___default.a, SiteDelete: __WEBPACK_IMPORTED_MODULE_2__delete___default.a, TableHeader: __WEBPACK_IMPORTED_MODULE_3__shared_TableHeader___default.a },
 	data: function data() {
 		return {
 			createSite: false,
@@ -3316,10 +3363,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		sortBy: function sortBy(column, sortable) {
-			if (sortable) {
-				this.pagination.sortBy = column;
-				this.pagination.descending = !this.pagination.descending;
+		sortBy: function sortBy(event) {
+			if (event.sortable) {
+				this.pagination.sortBy = event.sortBy;
+				this.pagination.descending = !event.descending;
 			}
 		},
 		getDataDefault: function getDataDefault() {
@@ -24275,230 +24322,259 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-container",
+    { attrs: { "fill-height": "", "pa-0": "" } },
     [
       _c(
         "v-container",
-        { attrs: { "fill-height": "", "pa-0": "" } },
+        { staticStyle: { "max-width": "500px" } },
         [
           _c(
-            "v-container",
-            { staticStyle: { "max-width": "500px" } },
+            "v-card",
+            { attrs: { flat: "" } },
             [
               _c(
-                "v-card",
-                { attrs: { flat: "" } },
+                "v-form",
                 [
-                  _c(
-                    "v-form",
-                    [
-                      !_vm.errorMessage
-                        ? _c(
-                            "div",
+                  _vm.errorMessage
+                    ? _c(
+                        "div",
+                        [
+                          _vm.errorMessage
+                            ? _c(
+                                "v-alert",
+                                {
+                                  staticClass: "mb-3 text-md-center",
+                                  attrs: {
+                                    value: true,
+                                    type: "error",
+                                    icon: "warning"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\tProvided username or password is invalid!\n\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _c(
+                        "div",
+                        [
+                          _c(
+                            "v-card-title",
+                            { staticClass: "justify-center hidden-sm-only" },
                             [
                               _c(
-                                "v-card-title",
-                                { staticClass: "justify-center" },
+                                "v-icon",
+                                {
+                                  attrs: {
+                                    color: "blue-grey darken-2",
+                                    size: "47"
+                                  }
+                                },
                                 [
-                                  _c(
-                                    "v-icon",
-                                    {
-                                      attrs: {
-                                        color: "blue-grey darken-2",
-                                        size: "47"
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\taccount_circle\n\t\t\t\t\t\t\t"
-                                      )
-                                    ]
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\taccount_circle\n\t\t\t\t\t\t"
                                   )
-                                ],
-                                1
+                                ]
                               )
                             ],
                             1
                           )
-                        : _c(
-                            "div",
+                        ],
+                        1
+                      ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    { staticClass: "mb-0 pb-0" },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "" } },
                             [
-                              _vm.errorMessage
-                                ? _c(
-                                    "v-alert",
-                                    {
-                                      staticClass: "mb-3 text-md-center",
-                                      attrs: {
-                                        value: true,
-                                        type: "error",
-                                        icon: "warning"
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\tProvided username or password is invalid!\n\t\t\t\t\t\t"
-                                      )
-                                    ]
-                                  )
-                                : _vm._e()
+                              _c("v-text-field", {
+                                staticClass: "mr-2",
+                                attrs: {
+                                  autofocus: "",
+                                  required: "",
+                                  label: "Name",
+                                  "prepend-icon": "person",
+                                  "error-messages": _vm.errors.name
+                                },
+                                model: {
+                                  value: _vm.register.name,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.register, "name", $$v)
+                                  },
+                                  expression: "register.name"
+                                }
+                              })
                             ],
                             1
                           ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-text",
-                        { staticClass: "mb-0 pb-0" },
-                        [
-                          _c("v-text-field", {
-                            staticClass: "mr-2",
-                            attrs: {
-                              autofocus: "",
-                              required: "",
-                              label: "Name",
-                              "prepend-icon": "person",
-                              "error-messages": _vm.errors.name
-                            },
-                            model: {
-                              value: _vm.register.name,
-                              callback: function($$v) {
-                                _vm.$set(_vm.register, "name", $$v)
-                              },
-                              expression: "register.name"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            staticClass: "mr-2",
-                            attrs: {
-                              required: "",
-                              label: "Email",
-                              "prepend-icon": "email",
-                              "error-messages": _vm.errors.email
-                            },
-                            model: {
-                              value: _vm.register.email,
-                              callback: function($$v) {
-                                _vm.$set(_vm.register, "email", $$v)
-                              },
-                              expression: "register.email"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            staticClass: "mr-2",
-                            attrs: {
-                              required: "",
-                              type: "password",
-                              label: "Password",
-                              "prepend-icon": "lock",
-                              "error-messages": _vm.errors.password
-                            },
-                            model: {
-                              value: _vm.register.password,
-                              callback: function($$v) {
-                                _vm.$set(_vm.register, "password", $$v)
-                              },
-                              expression: "register.password"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            staticClass: "mr-2",
-                            attrs: {
-                              required: "",
-                              type: "password",
-                              label: "Confirm password",
-                              "prepend-icon": "lock",
-                              "error-messages": _vm.errors.password
-                            },
-                            model: {
-                              value: _vm.register.confirm,
-                              callback: function($$v) {
-                                _vm.$set(_vm.register, "confirm", $$v)
-                              },
-                              expression: "register.confirm"
-                            }
-                          }),
                           _vm._v(" "),
                           _c(
-                            "v-checkbox",
-                            {
-                              staticClass: "ml-4 pl-2",
-                              attrs: {
-                                value: "1",
-                                name: "remember",
-                                "error-messages": _vm.errors.tos
-                              },
-                              model: {
-                                value: _vm.register.tos,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.register, "tos", $$v)
-                                },
-                                expression: "register.tos"
-                              }
-                            },
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "" } },
                             [
-                              _c("template", { slot: "label" }, [
-                                _vm._v("\n\t\t\t\t\t\t\t\tAccept   "),
-                                _c(
-                                  "a",
-                                  {
-                                    attrs: { href: "#" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        _vm.dialog = true
-                                      }
-                                    }
+                              _c("v-text-field", {
+                                staticClass: "mr-2",
+                                attrs: {
+                                  required: "",
+                                  label: "Email",
+                                  "prepend-icon": "email",
+                                  "error-messages": _vm.errors.email
+                                },
+                                model: {
+                                  value: _vm.register.email,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.register, "email", $$v)
                                   },
-                                  [_vm._v("Terms of Service")]
-                                )
-                              ])
-                            ],
-                            2
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                block: "",
-                                large: "",
-                                color: "primary",
-                                loading: _vm.processing
-                              },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.submit()
+                                  expression: "register.email"
                                 }
-                              }
-                            },
-                            [_vm._v("\n\t\t\t\t\t\t\tRegister\n\t\t\t\t\t\t")]
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "" } },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "mr-2",
+                                attrs: {
+                                  required: "",
+                                  type: "password",
+                                  label: "Password",
+                                  "prepend-icon": "lock",
+                                  "error-messages": _vm.errors.password
+                                },
+                                model: {
+                                  value: _vm.register.password,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.register, "password", $$v)
+                                  },
+                                  expression: "register.password"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "" } },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "mr-2",
+                                attrs: {
+                                  required: "",
+                                  type: "password",
+                                  label: "Confirm password",
+                                  "prepend-icon": "lock",
+                                  "error-messages": _vm.errors.password
+                                },
+                                model: {
+                                  value: _vm.register.confirm,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.register, "confirm", $$v)
+                                  },
+                                  expression: "register.confirm"
+                                }
+                              })
+                            ],
+                            1
                           )
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c(
-                        "div",
-                        { staticClass: "text-xs-center pb-4" },
+                        "v-checkbox",
+                        {
+                          staticClass: "ml-4 pl-2",
+                          attrs: {
+                            value: "1",
+                            name: "remember",
+                            "error-messages": _vm.errors.tos
+                          },
+                          model: {
+                            value: _vm.register.tos,
+                            callback: function($$v) {
+                              _vm.$set(_vm.register, "tos", $$v)
+                            },
+                            expression: "register.tos"
+                          }
+                        },
                         [
-                          _vm._v(
-                            "\n\t\t\t\t\t\tAlready have an account?\n\t\t\t\t\t\t"
-                          ),
-                          _c("router-link", { attrs: { to: "/login" } }, [
-                            _vm._v("Login")
+                          _c("template", { slot: "label" }, [
+                            _vm._v("\n\t\t\t\t\t\t\tAccept   "),
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.dialog = true
+                                  }
+                                }
+                              },
+                              [_vm._v("Terms of Service")]
+                            )
                           ])
                         ],
-                        1
+                        2
                       )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            block: "",
+                            large: "",
+                            color: "primary",
+                            loading: _vm.processing
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.submit()
+                            }
+                          }
+                        },
+                        [_vm._v("\n\t\t\t\t\t\tRegister\n\t\t\t\t\t")]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "text-xs-center pb-4" },
+                    [
+                      _vm._v(
+                        "\n\t\t\t\t\tAlready have an account?\n\t\t\t\t\t"
+                      ),
+                      _c("router-link", { attrs: { to: "/login" } }, [
+                        _vm._v("Login")
+                      ])
                     ],
                     1
                   )
@@ -24507,19 +24583,19 @@ var render = function() {
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("tos", {
+            attrs: { dialog: _vm.dialog },
+            on: {
+              close: function($event) {
+                _vm.close()
+              }
+            }
+          })
         ],
         1
-      ),
-      _vm._v(" "),
-      _c("tos", {
-        attrs: { dialog: _vm.dialog },
-        on: {
-          close: function($event) {
-            _vm.close()
-          }
-        }
-      })
+      )
     ],
     1
   )
@@ -24630,351 +24706,360 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "v-data-table",
-            {
-              staticClass: "elevation-1",
-              attrs: {
-                loading: _vm.loading,
-                headers: _vm.headers,
-                items: _vm.dataItems,
-                "total-items": _vm.totalItems,
-                pagination: _vm.pagination,
-                "rows-per-page-items": _vm.rowsPerPage
-              },
-              on: {
-                "update:pagination": function($event) {
-                  _vm.pagination = $event
+          _c("v-data-table", {
+            staticClass: "elevation-1",
+            attrs: {
+              loading: _vm.loading,
+              headers: _vm.headers,
+              items: _vm.dataItems,
+              "total-items": _vm.totalItems,
+              pagination: _vm.pagination,
+              "rows-per-page-items": _vm.rowsPerPage
+            },
+            on: {
+              "update:pagination": function($event) {
+                _vm.pagination = $event
+              }
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "headers",
+                fn: function(props) {
+                  return [
+                    _c("table-header", {
+                      attrs: { props: props, pagination: _vm.pagination },
+                      on: {
+                        update: function($event) {
+                          _vm.sortBy($event)
+                        }
+                      }
+                    })
+                  ]
                 }
               },
-              scopedSlots: _vm._u([
-                {
-                  key: "items",
-                  fn: function(props) {
-                    return [
-                      _c("td", { staticClass: "text-xs-left" }, [
-                        _c("div", [_vm._v(_vm._s(props.item.name))]),
-                        _vm._v(" "),
-                        _c("small", { staticClass: "grey--text" }, [
-                          _vm._v(_vm._s(props.item.slug) + ".gyrbox.site")
-                        ])
-                      ]),
+              {
+                key: "items",
+                fn: function(props) {
+                  return [
+                    _c("td", { staticClass: "text-xs-left" }, [
+                      _c("div", [_vm._v(_vm._s(props.item.name))]),
                       _vm._v(" "),
-                      _c(
-                        "td",
-                        { staticClass: "text-xs-center" },
-                        [
-                          _c(
-                            "v-tooltip",
-                            { attrs: { left: "" } },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    slot: "activator",
-                                    small: "",
-                                    dark: "",
-                                    fab: "",
-                                    color: _vm.statuses[props.item.status].color
-                                  },
-                                  slot: "activator"
+                      _c("small", { staticClass: "grey--text" }, [
+                        _vm._v(_vm._s(props.item.slug) + ".gyrbox.site")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-xs-center" },
+                      [
+                        _c(
+                          "v-tooltip",
+                          { attrs: { left: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: {
+                                  slot: "activator",
+                                  small: "",
+                                  dark: "",
+                                  fab: "",
+                                  color: _vm.statuses[props.item.status].color
                                 },
-                                [
-                                  _c("v-icon", [
+                                slot: "activator"
+                              },
+                              [
+                                _c("v-icon", [
+                                  _vm._v(
+                                    _vm._s(_vm.statuses[props.item.status].icon)
+                                  )
+                                ])
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(_vm.statuses[props.item.status].name)
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass:
+                          "text-xs-center hidden-xs-only hidden-sm-only"
+                      },
+                      [
+                        _c(
+                          "v-icon",
+                          { attrs: { disabled: props.item.option_naked } },
+                          [_vm._v("verified_user")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-icon",
+                          { attrs: { disabled: props.item.option_naked } },
+                          [_vm._v("wb_cloudy")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-icon",
+                          { attrs: { disabled: props.item.option_naked } },
+                          [_vm._v("remove_red_eye")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-icon",
+                          { attrs: { disabled: props.item.option_naked } },
+                          [_vm._v("timer")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-icon",
+                          { attrs: { disabled: props.item.option_naked } },
+                          [_vm._v("check_circle")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-icon",
+                          { attrs: { disabled: props.item.option_naked } },
+                          [_vm._v("lock")]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-xs-left hidden-xs-only" },
+                      [
+                        _c(
+                          "v-btn",
+                          { staticClass: "pa-0 ma-0", attrs: { flat: "" } },
+                          [
+                            props.item.type == "Laravel"
+                              ? _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "mr-2",
+                                    attrs: { color: "red" }
+                                  },
+                                  [
                                     _vm._v(
-                                      _vm._s(
-                                        _vm.statuses[props.item.status].icon
-                                      )
+                                      "\n\t\t\t\t\t\t\tfab fa-laravel\n\t\t\t\t\t\t"
                                     )
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("span", [
-                                _vm._v(
-                                  _vm._s(_vm.statuses[props.item.status].name)
+                                  ]
                                 )
-                              ])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass:
-                            "text-xs-center hidden-xs-only hidden-sm-only"
-                        },
-                        [
-                          _c(
-                            "v-icon",
-                            { attrs: { disabled: props.item.option_naked } },
-                            [_vm._v("verified_user")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-icon",
-                            { attrs: { disabled: props.item.option_naked } },
-                            [_vm._v("wb_cloudy")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-icon",
-                            { attrs: { disabled: props.item.option_naked } },
-                            [_vm._v("remove_red_eye")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-icon",
-                            { attrs: { disabled: props.item.option_naked } },
-                            [_vm._v("timer")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-icon",
-                            { attrs: { disabled: props.item.option_naked } },
-                            [_vm._v("check_circle")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-icon",
-                            { attrs: { disabled: props.item.option_naked } },
-                            [_vm._v("lock")]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        { staticClass: "text-xs-left hidden-xs-only" },
-                        [
-                          _c(
-                            "v-btn",
-                            { staticClass: "pa-0 ma-0", attrs: { flat: "" } },
-                            [
-                              props.item.type == "Laravel"
+                              : props.item.type == "WordPress"
                                 ? _c(
                                     "v-icon",
                                     {
                                       staticClass: "mr-2",
-                                      attrs: { color: "red" }
+                                      attrs: { color: "grey" }
                                     },
                                     [
                                       _vm._v(
-                                        "\n\t\t\t\t\t\t\tfab fa-laravel\n\t\t\t\t\t\t"
+                                        "\n\t\t\t\t\t\t\tfab fa-wordpress\n\t\t\t\t\t\t"
                                       )
                                     ]
                                   )
-                                : props.item.type == "WordPress"
-                                  ? _c(
-                                      "v-icon",
-                                      {
-                                        staticClass: "mr-2",
-                                        attrs: { color: "grey" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n\t\t\t\t\t\t\tfab fa-wordpress\n\t\t\t\t\t\t"
-                                        )
-                                      ]
-                                    )
-                                  : _c(
-                                      "v-icon",
-                                      {
-                                        staticClass: "mr-2",
-                                        attrs: { color: "grey" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n\t\t\t\t\t\t\tfa fa-question-circle\n\t\t\t\t\t\t"
-                                        )
-                                      ]
-                                    ),
-                              _vm._v(" "),
-                              props.item.type
-                                ? _c("span", [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t" +
-                                        _vm._s(props.item.type) +
-                                        "\n\t\t\t\t\t\t"
-                                    )
-                                  ])
-                                : _c("span", [_c("i", [_vm._v("unknown")])])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticClass:
-                            "text-xs-left hidden-xs-only hidden-sm-only"
-                        },
-                        [
-                          _c(
-                            "v-btn",
-                            { staticClass: "pl-0 ml-0", attrs: { flat: "" } },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  staticClass: "mr-2",
-                                  attrs: { color: "indigo" }
-                                },
-                                [_vm._v("fab fa-php")]
-                              ),
-                              _vm._v(" "),
-                              _c("span", [_vm._v(_vm._s(props.item.engine))])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        { staticClass: "text-xs-right" },
-                        [
-                          _c(
-                            "v-menu",
-                            {
-                              attrs: {
-                                transition: "slide-x-transition",
-                                bottom: "",
-                                right: ""
-                              }
-                            },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "mr-0",
-                                  attrs: {
-                                    slot: "activator",
-                                    color: "dark",
-                                    flat: "",
-                                    icon: ""
-                                  },
-                                  slot: "activator"
-                                },
-                                [_c("v-icon", [_vm._v("more_vert")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list",
-                                [
-                                  _c(
-                                    "v-btn",
+                                : _c(
+                                    "v-icon",
                                     {
-                                      attrs: {
-                                        block: "",
-                                        flat: "",
-                                        depressed: "",
-                                        href: "#"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.updateItem(props.item._id)
-                                        }
-                                      }
+                                      staticClass: "mr-2",
+                                      attrs: { color: "grey" }
                                     },
                                     [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("edit")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-flex",
-                                        { attrs: { "justify-left": "" } },
-                                        [_vm._v("Edit")]
+                                      _vm._v(
+                                        "\n\t\t\t\t\t\t\tfa fa-question-circle\n\t\t\t\t\t\t"
                                       )
-                                    ],
-                                    1
+                                    ]
                                   ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        flat: "",
-                                        block: "",
-                                        href:
-                                          "http://" +
-                                          props.item.slug +
-                                          ".gyrbox.site",
-                                        target: "_blank"
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("remove_red_eye")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-flex",
-                                        { attrs: { "justify-left": "" } },
-                                        [_vm._v("Visit")]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-divider"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        flat: "",
-                                        block: "",
-                                        color: "red"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.deleteItem(props.item._id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("delete")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-flex",
-                                        { attrs: { "justify-left": "" } },
-                                        [_vm._v("Delete")]
-                                      )
-                                    ],
-                                    1
+                            _vm._v(" "),
+                            props.item.type
+                              ? _c("span", [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t" +
+                                      _vm._s(props.item.type) +
+                                      "\n\t\t\t\t\t\t"
                                   )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ]
-                  }
+                                ])
+                              : _c("span", [_c("i", [_vm._v("unknown")])])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass:
+                          "text-xs-left hidden-xs-only hidden-sm-only"
+                      },
+                      [
+                        _c(
+                          "v-btn",
+                          { staticClass: "pl-0 ml-0", attrs: { flat: "" } },
+                          [
+                            _c(
+                              "v-icon",
+                              {
+                                staticClass: "mr-2",
+                                attrs: { color: "indigo" }
+                              },
+                              [_vm._v("fab fa-php")]
+                            ),
+                            _vm._v(" "),
+                            _c("span", [_vm._v(_vm._s(props.item.engine))])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-xs-right" },
+                      [
+                        _c(
+                          "v-menu",
+                          {
+                            attrs: {
+                              transition: "slide-x-transition",
+                              bottom: "",
+                              right: ""
+                            }
+                          },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "mr-0",
+                                attrs: {
+                                  slot: "activator",
+                                  color: "dark",
+                                  flat: "",
+                                  icon: ""
+                                },
+                                slot: "activator"
+                              },
+                              [_c("v-icon", [_vm._v("more_vert")])],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      block: "",
+                                      flat: "",
+                                      depressed: "",
+                                      href: "#"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.updateItem(props.item._id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-icon", { attrs: { left: "" } }, [
+                                      _vm._v("edit")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-flex",
+                                      { attrs: { "justify-left": "" } },
+                                      [_vm._v("Edit")]
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      flat: "",
+                                      block: "",
+                                      href:
+                                        "http://" +
+                                        props.item.slug +
+                                        ".gyrbox.site",
+                                      target: "_blank"
+                                    }
+                                  },
+                                  [
+                                    _c("v-icon", { attrs: { left: "" } }, [
+                                      _vm._v("remove_red_eye")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-flex",
+                                      { attrs: { "justify-left": "" } },
+                                      [_vm._v("Visit")]
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("v-divider"),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    attrs: {
+                                      flat: "",
+                                      block: "",
+                                      color: "red"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.deleteItem(props.item._id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("v-icon", { attrs: { left: "" } }, [
+                                      _vm._v("delete")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-flex",
+                                      { attrs: { "justify-left": "" } },
+                                      [_vm._v("Delete")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ]
                 }
-              ])
-            },
-            [_vm._v("\n\n\t\t\t@include('layout.table.header')\n\n\n\n\t\t\t")]
-          )
+              }
+            ])
+          })
         ],
         1
       )
@@ -25576,35 +25661,8 @@ var render = function() {
               _c(
                 "v-form",
                 [
-                  !_vm.errorMessage
+                  _vm.errorMessage
                     ? _c(
-                        "div",
-                        [
-                          _c(
-                            "v-card-title",
-                            { staticClass: "justify-center" },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  attrs: {
-                                    color: "blue-grey darken-2",
-                                    size: "47"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n\t\t\t\t\t\t\taccount_circle\n\t\t\t\t\t\t"
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    : _c(
                         "div",
                         [
                           _vm.errorMessage
@@ -25625,6 +25683,33 @@ var render = function() {
                                 ]
                               )
                             : _vm._e()
+                        ],
+                        1
+                      )
+                    : _c(
+                        "div",
+                        [
+                          _c(
+                            "v-card-title",
+                            { staticClass: "justify-center hidden-sm-only" },
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  attrs: {
+                                    color: "blue-grey darken-2",
+                                    size: "47"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\taccount_circle\n\t\t\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
                         ],
                         1
                       ),
@@ -25745,6 +25830,99 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-dca5370e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ed23e9f0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shared/TableHeader.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "tr",
+    _vm._l(_vm.props.headers, function(header, index) {
+      return _c(
+        "th",
+        {
+          key: header.text,
+          class: [
+            "column",
+            "text-xs-" + header.align,
+            header.visibility,
+            header.sortable ? "sortable" : "",
+            header.value == _vm.pagination.sortBy ? "active" : "",
+            header.value == _vm.pagination.sortBy
+              ? _vm.pagination.descending
+                ? "desc"
+                : "asc"
+              : ""
+          ],
+          attrs: {
+            role: "columnheader",
+            scope: "col",
+            tabindex: index,
+            "aria-sort":
+              header.value == _vm.pagination.sortBy
+                ? _vm.pagination.descending
+                  ? "descending"
+                  : "ascending"
+                : ""
+          },
+          on: {
+            click: function($event) {
+              _vm.$emit("update", {
+                sortable: header.sortable,
+                sortBy: header.value,
+                descending: _vm.pagination.descending
+              })
+            }
+          }
+        },
+        [
+          header.align == "right" && header.value == _vm.pagination.sortBy
+            ? _c("v-icon", { attrs: { "aria-hidden": "true", small: "" } }, [
+                _vm._v(
+                  "\n\t\t\t\t" +
+                    _vm._s(
+                      _vm.pagination.descending == "true"
+                        ? "arrow_upward"
+                        : "arrow_downward"
+                    ) +
+                    "\n\t\t\t"
+                )
+              ])
+            : _vm._e(),
+          _vm._v("\n\n            " + _vm._s(header.text) + "\n\n            "),
+          header.align != "right" && header.value == _vm.pagination.sortBy
+            ? _c("v-icon", { attrs: { "aria-hidden": "true", small: "" } }, [
+                _vm._v(
+                  "\n\t\t\t\t" +
+                    _vm._s(
+                      _vm.pagination.descending == "true"
+                        ? "arrow_upward"
+                        : "arrow_downward"
+                    ) +
+                    "\n\t\t\t"
+                )
+              ])
+            : _vm._e()
+        ],
+        1
+      )
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ed23e9f0", module.exports)
   }
 }
 
@@ -63204,6 +63382,54 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/shared/TableHeader.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/shared/TableHeader.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ed23e9f0\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/shared/TableHeader.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/shared/TableHeader.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ed23e9f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-ed23e9f0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/shared/Toolbar.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -63510,13 +63736,15 @@ function initialize(store, router) {
         }
     });
 
-    axios.interceptors.response.use(null, function (error) {
-        if (error.resposne.status == 401) {
+    window.axios.interceptors.response.use(function (response) {
+        return response;
+    }, function (error) {
+        if (error.response.status == 401) {
             store.commit('logout');
             router.push('/login');
         }
 
-        return Promise.reject(error);
+        return Promise.reject(error.response);
     });
 
     if (store.getters.currentUser) {
@@ -63561,18 +63789,22 @@ function setAuthorization(token) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_customers_New___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_customers_New__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_customers_View__ = __webpack_require__("./resources/assets/js/components/customers/View.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_customers_View___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_customers_View__);
+// auth components
 
 
 
 
 
+// dashboard
+
+
+// site components
 
 
 
 
 
-
-
+// customer components
 
 
 
@@ -63669,14 +63901,14 @@ var user = Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* getLocalUse
             state.loading = false;
             state.currentUser = Object.assign({}, payload.user, { token: payload.access_token });
 
-            localStorage.setItem("user", JSON.stringify(state.currentUser));
+            localStorage.setItem('user', JSON.stringify(state.currentUser));
         },
         loginFailed: function loginFailed(state, payload) {
             state.loading = false;
             state.auth_error = payload.error;
         },
         logout: function logout(state) {
-            localStorage.removeItem("user");
+            localStorage.removeItem('user');
             state.isLoggedIn = false;
             state.currentUser = null;
         },
@@ -63686,7 +63918,7 @@ var user = Object(__WEBPACK_IMPORTED_MODULE_0__helpers_auth__["a" /* getLocalUse
     },
     actions: {
         login: function login(context) {
-            context.commit("login");
+            context.commit('login');
         },
         getCustomers: function getCustomers(context) {
             axios.get('/api/customers').then(function (response) {

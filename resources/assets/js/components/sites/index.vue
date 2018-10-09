@@ -39,8 +39,9 @@
 				class="elevation-1"
 			>
 
-				@include('layout.table.header')
-
+				<template slot="headers" slot-scope="props">
+					<table-header :props="props" :pagination="pagination" @update="sortBy($event)"></table-header>
+				</template>
 
 
 				<template slot="items" slot-scope="props">
@@ -147,10 +148,11 @@
 	import SiteCreate from './create';
 	import SiteUpdate from './update';
 	import SiteDelete from './delete';
+	import TableHeader from '../shared/TableHeader';
 
 	export default {
 		name: 'sites',
-		components: { SiteCreate, SiteUpdate, SiteDelete },
+		components: { SiteCreate, SiteUpdate, SiteDelete, TableHeader },
 		data () {
 			return {
 				createSite: false,
@@ -236,10 +238,10 @@
 			}
 		},
 		methods: {
-			sortBy(column, sortable) {
-				if (sortable) {
-					this.pagination.sortBy = column
-					this.pagination.descending = !this.pagination.descending
+			sortBy(event) {
+				if (event.sortable) {
+					this.pagination.sortBy = event.sortBy
+					this.pagination.descending = !event.descending
 				}
 			},
 

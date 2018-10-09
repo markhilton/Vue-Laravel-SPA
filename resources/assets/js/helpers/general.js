@@ -12,13 +12,15 @@ export function initialize(store, router) {
         }
     });
 
-    axios.interceptors.response.use(null, (error) => {
-        if (error.resposne.status == 401) {
+    window.axios.interceptors.response.use(response => {
+        return response;
+    }, error => {
+        if (error.response.status == 401) {
             store.commit('logout');
             router.push('/login');
         }
 
-        return Promise.reject(error);
+        return Promise.reject(error.response);
     });
 
     if (store.getters.currentUser) {

@@ -7,7 +7,7 @@ export function login(credentials) {
                 setAuthorization(response.data.access_token);
                 res(response.data);
             })
-            .catch((err) =>{
+            .catch((err) => {
                 rej("Wrong email or password");
             })
     })
