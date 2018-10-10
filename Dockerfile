@@ -23,6 +23,13 @@ FROM alpine:3.5
 WORKDIR /app
 COPY --from=node /node /app
 
+RUN mkdir -p /app/storage/app/public && \
+	mkdir -p /app/storage/framework/cache && \
+	mkdir -p /app/storage/framework/session && \
+	mkdir -p /app/storage/framework/testing && \
+	mkdir -p /app/storage/framework/views && \
+	mkdir -p /app/storage/logs
+
 RUN chown -R 9000:9000 storage && \
 	chown -R 9000:9000 bootstrap/cache && \
 	chmod -R ug+rwx    bootstrap/cache && \
