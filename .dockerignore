@@ -1,14 +1,10 @@
 .env
+.git
 /node_modules
 /public/hot
 /public/storage
 /storage
 /vendor
-/.idea
-/.vscode
-/.vagrant
-Homestead.json
-Homestead.yaml
 npm-debug.log
 yarn-error.log
 public/mix-manifest.json
@@ -16,3 +12,6 @@ public/js/app.js
 public/css/app.css
 package-lock.json
 composer.lock
+Dockerfile
+docker-compose.yaml
+cloudbuild.yaml
