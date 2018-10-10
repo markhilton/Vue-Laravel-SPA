@@ -75,3 +75,4 @@ data:
   PHP_ACCESS_LOG:          "off"
   PHP_INI_PATH:            "/config/php/fpm/php.ini"
   PHP_POOL_PATH:           "/config/php/fpm/www.conf"
+  PHP_BOOT_SCRIPTS:        "/config/laravel/boot.sh"
