@@ -38,9 +38,12 @@ RUN chown -R 9000:9000 storage && \
 
 
 # create a sh script to copy application into EmptyDir for K8s
-RUN echo '#!/bin/sh'                    > /init.sh && \
-	echo 'echo "app init started!"'    >> /init.sh && \
-	echo 'cp -rp /app     /src'        >> /init.sh && \
-	echo 'mv -rp /src/k8s /config'     >> /init.sh && \
-	echo 'echo "app init completed!"'  >> /init.sh && \
+RUN echo '#!/bin/sh'                      > /init.sh && \
+	echo 'echo "app init started!"'      >> /init.sh && \
+	echo 'mv /app/* /src/'               >> /init.sh && \
+	echo 'mv /src/k8s/* /config/'        >> /init.sh && \
+	echo 'cp -rp /src/public/* /public/' >> /init.sh && \
+	echo 'echo "app init completed!"'    >> /init.sh && \
 	chmod +x /init.sh
+
+CMD [ '/init.sh' ]

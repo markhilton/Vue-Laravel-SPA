@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "spa.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "spa.name" . }}
+    helm.sh/chart: {{ include "spa.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+
+data:
+  APP_NAME:                "{{ .Values.app.name }}"
+  APP_URL:                 "{{ .Values.app.url }}"
+  APP_KEY:                 "{{ .Values.app.key }}"
+  APP_ENV:                 "production"
+  APP_DEBUG:               "true"
+  DEBUGBAR_ENABLED:        "false"
+
+  LOG_LEVEL:               "debug"
+  LOG_CHANNEL:             "errorlog"
+
+  BROADCAST_DRIVER:        "redis"
+  CACHE_DRIVER:            "redis"
+  SESSION_DRIVER:          "redis"
+  QUEUE_DRIVER:            "redis"
+
+  REDIS_HOST:              "{{ .Values.app.redis_host }}"
+  REDIS_PORT:              "6379"
+
+  AUTHY_SECRET:            "none"
+  STRIPE_MODEL:            "App\\User"
+  BRAINTREE_MODEL:         "App\\User"
+
+  # Pusher
+  PUSHER_APP_ID:           ""
+  PUSHER_APP_KEY:          ""
+  PUSHER_APP_SECRET:       ""
+  PUSHER_APP_CLUSTER:      ""
+
+  # Email service provider
+  MAIL_DRIVER:             "smtp"
+  MAIL_HOST:               "smtp.sendgrid.net"
+  MAIL_PORT:               "2525"
+  MAIL_USERNAME:           "{{ .Values.app.mail.username }}"
+  MAIL_PASSWORD:           "{{ .Values.app.mail.password }}"
+  MAIL_ENCRYPTION:         "tls"
+
+  # Stripe payment gateway integration
+  STRIPE_KEY:              ""
+  STRIPE_SECRET:           ""
+
+  # MongoDB
+  DB_CONNECTION:           "mongodb"
+  MONGODB_HOST:            "{{ .Values.app.mongo_host }}"
+  MONGO_INITDB_DATABASE:   "{{ include "spa.name" . }}"
+
+  # Json Web Token
+  JWT_SECRET:              "{{ .Values.app.jwt_secret }}"
+
+  # Nginx container configuration
+  # more at: https://hub.docker.com/r/crunchgeek/nginx-pagespeed/
+  NGINX_PAGESPEED:         "off"
+  NGINX_FASTCGI_GEOIP:     "on"
+  NGINX_DEFAULT_SERVER:    "off"
+  NGINX_INCLUDE_PATH:      "/config/nginx/nginx.conf"
+  NGINX_PAGESPEED_STORAGE: "redis"
+  NGINX_PAGESPEED_REDIS:   "{{ .Values.app.redis_host }}:6379"
+
+  PHP_UID:                 "9000"
+  PHP_GID:                 "9000"
+  PHP_HOME:                "/app"
+  PHP_USER:                "php-fpm"
+  PHP_ERROR_LOG:           "on"
+  PHP_ACCESS_LOG:          "off"
+  PHP_INI_PATH:            "/config/php/fpm/php.ini"
+  PHP_POOL_PATH:           "/config/php/fpm/www.conf"

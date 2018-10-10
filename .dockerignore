@@ -1,5 +1,6 @@
 .env
 .git
+helm-install.sh
 /node_modules
 /public/hot
 /public/storage

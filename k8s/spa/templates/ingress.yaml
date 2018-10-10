@@ -1,0 +1,32 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "spa.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "spa.name" . }}
+    helm.sh/chart: {{ include "spa.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  hosts:
+    - {{ .Values.app.host }}
+  tls:
+    - secretName: tls-{{ include "spa.name" . }}
+      hosts:
+        - {{ .Values.app.host }}
+
+  rules:
+    - host: {{ .Values.app.host }}
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            backend:
+              serviceName: {{ include "spa.fullname" . }}
+              servicePort: 80
+{{- end }}

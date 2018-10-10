@@ -1,0 +1,153 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "spa.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "spa.name" . }}
+    helm.sh/chart: {{ include "spa.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "spa.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  minReadySeconds: 10
+
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "spa.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      # inject hostname to connect nginx with php-fpm backend
+      # because docker calls it backend while kubernetes requires Pod's localhost
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+            - "backend"
+
+      # init container will copy application, config files
+      # and web public files into a shared volume
+      initContainers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: [ '/init.sh' ]
+          imagePullPolicy: Always
+
+          volumeMounts:
+            - name: app
+              mountPath: /src
+            - name: public
+              mountPath: /public
+            - name: config
+              mountPath: /config
+
+      containers:
+        # php backend
+        - name: php
+          image: index.docker.io/crunchgeek/php-fpm:7.2-combo
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9000
+
+          volumeMounts:
+            - name: app
+              mountPath: /app
+            - name: config
+              mountPath: /config
+
+          envFrom:
+            - configMapRef:
+                name: {{ include "spa.fullname" . }}
+
+          resources:
+            requests:
+              cpu:    "10m"
+              memory: "64Mi"
+            limits:
+              cpu:    "1000m"
+              memory: "1Gi"
+
+        # nginx web server
+        - name: nginx
+          image: index.docker.io/crunchgeek/nginx-pagespeed
+          imagePullPolicy: IfNotPresent
+          workingDir: /app/public
+
+          ports:
+            - containerPort: 80
+
+          volumeMounts:
+            - name: public
+              mountPath: /app/public
+            - name: config
+              mountPath: /config
+
+          envFrom:
+            - configMapRef:
+                name: {{ include "spa.fullname" . }}
+
+          resources:
+            requests:
+              cpu:    "10m"
+              memory: "128Mi"
+            limits:
+              cpu:    "1000m"
+              memory: "1Gi"
+
+          readinessProbe:
+            httpGet:
+              path:   /health
+              port:   80
+              scheme: HTTP
+            periodSeconds: 1
+            timeoutSeconds: 3
+            initialDelaySeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path:   /health
+              port:   80
+              scheme: HTTP
+            periodSeconds: 1
+            timeoutSeconds: 3
+            initialDelaySeconds: 5
+
+      volumes:
+        - name: app
+          emptyDir:
+            medium: Memory
+        - name: public
+          emptyDir:
+            medium: Memory
+        - name: config
+          emptyDir:
+            medium: Memory
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: {{ include "spa.fullname" . }}
+  namespace: {{ .Values.namespace }}
+
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: {{ include "spa.fullname" . }}
+
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 60

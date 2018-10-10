@@ -1,0 +1,36 @@
+# Default values for spa.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+namespace: default
+
+image:
+  repository: index.docker.io/crunchgeek/laravel-spa
+  tag: latest
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+  path: /
+
+app:
+  key: ""
+  url: ""
+  host: ""
+  jwt_secret: ""
+  redis_host: ""
+  mongo_host: ""
+  mail:
+    username: ""
+    mail_password: ""
