@@ -105,8 +105,12 @@ class AuthController extends Controller
      */
     protected function getCurrentUser()
     {
-        $user = auth()->user();
-        $user->app = [
+        $user   = auth()->user();
+        $admins = explode(',', config('admin.emails'));
+        $admins = array_map('trim', $admins);
+
+        $user->type = in_array($user->email, $admins) ? 'Developer' : 'User';
+        $user->app  = [
             'name' => config('app.name'),
             'url'  => 'localhost'
         ];
