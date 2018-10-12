@@ -173,14 +173,24 @@
 				error:       false,
 				statuses: {
 					active: {
-						name: 'active',
-						color: 'primary',
-						icon: 'user'
+						name: "Site's OK",
+						color: 'success',
+						icon: 'thumb_up'
 					},
 					pending: {
-						name: 'active',
+						name: "Site update in progress...",
 						color: 'primary',
-						icon: 'user'
+						icon: 'fa-spinner fa-spin'
+					},
+					disabled: {
+						name: "Site is disabled",
+						color: 'warning',
+						icon: 'pause'
+					},
+					error: {
+						name: "Problem with the site",
+						color: 'error',
+						icon: 'report'
 					},
 				},
 				loading:     true,

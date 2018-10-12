@@ -30,6 +30,7 @@
 							<v-flex xs12 sm12>
 								<v-carousel
 									id="site-type"
+									light
 									hide-delimiters
 									v-model="carouselIndex"
 									:cycle="false"
@@ -50,7 +51,7 @@
 
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="blue darken-1" flat @click.native="cancel()">Cancel</v-btn>
+					<v-btn color="blue darken-1" flat @click.native="close()">Cancel</v-btn>
 					<v-btn color="info" @click.native="deploy()">Deploy</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -86,9 +87,9 @@
     	},
 
     	methods: {
-    		cancel() {
+    		close() {
                 // reset form
-    			Object.assign(this.$data, this.$options.data.call(this))
+				this.site.name = ''
     			this.$emit('close')
     		},
 
@@ -99,11 +100,9 @@
     				let data = response.data
 
     				if (data.status == 'OK') {
-    					this.cancel()
+    					this.close()
     					this.$emit('reload', true)
     				} else {
-    					console.dir(data.response)
-
     					if (typeof data.response == 'string') {
     						this.error = data.response
     					} else {
@@ -124,10 +123,6 @@
         min-height: 8em;
         box-shadow: none !important;
     }
-    .v-carousel .v-btn {
-        color: lightgrey !important;
-    }
-
     .block {
     	.v-input__slot { display: block !important }
     }
