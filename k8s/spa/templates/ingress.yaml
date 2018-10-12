@@ -15,14 +15,14 @@ metadata:
 {{- end }}
 spec:
   hosts:
-    - {{ .Values.app.host }}
+    - {{ .Values.app.domain }}
   tls:
     - secretName: tls-{{ include "spa.name" . }}
       hosts:
-        - {{ .Values.app.host }}
+        - {{ .Values.app.domain }}
 
   rules:
-    - host: {{ .Values.app.host }}
+    - host: {{ .Values.app.domain }}
       http:
         paths:
           - path: {{ .Values.ingress.path }}

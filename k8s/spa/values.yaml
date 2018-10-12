@@ -27,10 +27,21 @@ ingress:
 app:
   key: ""
   url: ""
-  host: ""
+  domain: ""
   jwt_secret: ""
-  redis_host: ""
-  mongo_host: ""
+  admin_emails: ""
+  hosts:
+    redis: ""
+    mongo: ""
   mail:
     username: ""
-    mail_password: ""
+    password: ""
+  pusher:
+    id: ""
+    cluster: ""
+    key: ""
+    secret: ""
+  stripe:
+    key: ""
+    secret: ""
+    api: ""

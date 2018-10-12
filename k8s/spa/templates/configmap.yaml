@@ -12,6 +12,7 @@ metadata:
 data:
   APP_NAME:                "{{ .Values.app.name }}"
   APP_URL:                 "{{ .Values.app.url }}"
+  APP_DOMAIN:              "{{ .Values.app.domain }}"
   APP_KEY:                 "{{ .Values.app.key }}"
   APP_ENV:                 "production"
   APP_DEBUG:               "true"
@@ -25,7 +26,7 @@ data:
   SESSION_DRIVER:          "redis"
   QUEUE_DRIVER:            "redis"
 
-  REDIS_HOST:              "{{ .Values.app.redis_host }}"
+  REDIS_HOST:              "{{ .Values.app.hosts.redis }}"
   REDIS_PORT:              "6379"
 
   AUTHY_SECRET:            "none"
@@ -33,10 +34,12 @@ data:
   BRAINTREE_MODEL:         "App\\User"
 
   # Pusher
-  PUSHER_APP_ID:           ""
-  PUSHER_APP_KEY:          ""
-  PUSHER_APP_SECRET:       ""
-  PUSHER_APP_CLUSTER:      ""
+  PUSHER_APP_ID:           "{{ .Values.app.pusher.id }}"
+  PUSHER_APP_KEY:          "{{ .Values.app.pusher.key }}"
+  PUSHER_APP_SECRET:       "{{ .Values.app.pusher.secret }}"
+  PUSHER_APP_CLUSTER:      "{{ .Values.app.pusher.cluster }}"
+  MIX_PUSHER_APP_KEY:      "{{ .Values.app.pusher.key }}"
+  MIX_PUSHER_APP_CLUSTER:  "{{ .Values.app.pusher.cluster }}"
 
   # Email service provider
   MAIL_DRIVER:             "smtp"
@@ -47,16 +50,17 @@ data:
   MAIL_ENCRYPTION:         "tls"
 
   # Stripe payment gateway integration
-  STRIPE_KEY:              ""
-  STRIPE_SECRET:           ""
+  STRIPE_KEY:              "{{ .Values.app.stripe.key }}"
+  STRIPE_SECRET:           "{{ .Values.app.stripe.secret }}"
 
   # MongoDB
   DB_CONNECTION:           "mongodb"
-  MONGODB_HOST:            "{{ .Values.app.mongo_host }}"
+  MONGODB_HOST:            "{{ .Values.app.hosts.mongo }}"
   MONGO_INITDB_DATABASE:   "{{ include "spa.name" . }}"
 
   # Json Web Token
   JWT_SECRET:              "{{ .Values.app.jwt_secret }}"
+  ADMIN_EMAILS:            "{{ .Values.app.admin_emails }}"
 
   # Nginx container configuration
   # more at: https://hub.docker.com/r/crunchgeek/nginx-pagespeed/
@@ -65,7 +69,7 @@ data:
   NGINX_DEFAULT_SERVER:    "off"
   NGINX_INCLUDE_PATH:      "/config/nginx/nginx.conf"
   NGINX_PAGESPEED_STORAGE: "redis"
-  NGINX_PAGESPEED_REDIS:   "{{ .Values.app.redis_host }}:6379"
+  NGINX_PAGESPEED_REDIS:   "{{ .Values.app.hosts.redis }}:6379"
 
   PHP_UID:                 "9000"
   PHP_GID:                 "9000"
