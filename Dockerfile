@@ -9,6 +9,10 @@ RUN composer install
 
 ### compile js & css assets
 FROM node:latest as node
+ARG MIX_PUSHER_APP_KEY=
+ARG MIX_PUSHER_APP_CLUSTER=
+ENV MIX_PUSHER_APP_KEY=$MIX_PUSHER_APP_KEY
+ENV MIX_PUSHER_APP_CLUSTER=$MIX_PUSHER_APP_CLUSTER
 WORKDIR /node
 COPY --from=composer /src /node
 RUN npm i cross-env -S && \

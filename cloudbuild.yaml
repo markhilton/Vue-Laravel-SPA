@@ -6,7 +6,10 @@ steps:
 
 # build docker image
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '--build-arg', 'TOKEN=${_OAUTH_TOKEN}',
+  args: [ 'build',
+          '--build-arg', 'TOKEN=${_OAUTH_TOKEN}', 
+          '--build-arg', 'MIX_PUSHER_APP_KEY=${_MIX_PUSHER_APP_KEY}',
+          '--build-arg', 'MIX_PUSHER_APP_CLUSTER=${_MIX_PUSHER_APP_CLUSTER}',
           '-t', '$_APP_CONTAINER:$BRANCH_NAME$TAG_NAME', '.' ]
 
 # push docker image to the repository
