@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Requests\UserRegister;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -23,19 +24,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register()
+    public function register(UserRegister $request)
     {
-        if (request('password') == '' || request('password') != request('confirm')) {
-            return response([ 'error' => [ 'password' => 'Provided passwords do not match!' ] ], 400);
-        }
+        $user = User::register($request->validated());
 
-        $response = User::create([
-            'name'     => request('name'),
-            'email'    => request('email'),
-            'password' => bcrypt(request('password')),
-        ]);
-
-        return $response;
+        return $user;
     }
 
     /**
@@ -119,6 +112,18 @@ class AuthController extends Controller
         ];
 
         return $user;
+    }
+
+    /**
+     * Return gravatar image string associated with user email
+     * https://stackoverflow.com/questions/23724887/how-do-i-implement-gravatar-in-laravel
+     *
+     * @return array
+     */
+    private function getAvatar($email)
+    {
+        $hash = md5(strtolower(trim($email)));
+        return 'http://www.gravatar.com/avatar/' . $hash;
     }
 
 }

@@ -12,7 +12,7 @@
 							icon="warning"
 							class="mb-3 text-md-center"
 						>
-							Provided username or password is invalid!
+							{{ errorMessage }}
 						</v-alert>
 					</div>
 					<div v-else>
@@ -65,8 +65,8 @@
 									type="password"
 									label="Confirm password"
 									prepend-icon="lock"
-									v-model="register.confirm"
-									:error-messages="errors.password"
+									v-model="register.password_confirmation"
+									:error-messages="errors.password_confirmation"
 								></v-text-field>
 							</v-flex>
 						</v-layout>
@@ -118,27 +118,33 @@
 		components: { tos },
         data() {
             return {
-                register: {
-                },
-                errors: {
-				},
+                register: {},
+                errors: {},
 				dialog: false,
                 processing: false,
-				errorMessage: false,
+				errorMessage: null,
             };
         },
         methods: {
             submit() {
-                this.processing = true
+                // this.processing = true
+
                 axios.post('/api/auth/register', this.register)
                     .then(response => {
                         this.processing = false
-						// sweet alert confirmation
+						this.errorMessage = null
+
                         this.$router.push({ path: '/login' });
                     })
                     .catch(error => {
                         this.processing = false
-						this.errors = error.data.error
+
+						if (error.data.errors == null) {
+							this.errorMessage = 'Unexpected error has occurred'
+						}
+						else {
+							this.errors = error.data.errors
+						}
                     });
             },
 			close() {

@@ -1,23 +1,23 @@
 // auth components
-import Login from './components/auth/Login';
-import Register from './components/auth/Register';
-import PasswordEmail from './components/auth/PasswordEmail'
-import PasswordReset from './components/auth/PasswordReset'
+import Login from '../components/auth/Login';
+import Register from '../components/auth/Register';
+import PasswordEmail from '../components/auth/PasswordEmail'
+import PasswordReset from '../components/auth/PasswordReset'
 
 // dashboard
-import Dashboard from './components/dashboard/index';
+import Dashboard from '../components/dashboard/index';
 
 // site components
-import Sites from './components/sites/index';
-import SiteCreate from './components/sites/create';
-import SiteUpdate from './components/sites/update';
-import SiteDelete from './components/sites/delete';
+import Sites from '../components/sites/index';
+import SiteCreate from '../components/sites/create';
+import SiteUpdate from '../components/sites/update';
+import SiteDelete from '../components/sites/delete';
 
 // customer components
-import CustomersMain from './components/customers/Main';
-import CustomersList from './components/customers/List';
-import NewCustomer from './components/customers/New';
-import Customer from './components/customers/View';
+import CustomersMain from '../components/customers/Main';
+import CustomersList from '../components/customers/List';
+import NewCustomer from '../components/customers/New';
+import Customer from '../components/customers/View';
 
 export const routes = [
     {

@@ -7,7 +7,7 @@ import VueRouter from 'vue-router';
 import colors	 from 'vuetify/es5/util/colors' // https://vuetifyjs.com/en/style/colors
 import {routes}  from './routes';
 import StoreData from './store';
-import App       from './components/App.vue';
+import App       from '../components/App.vue';
 import {initialize} from './helpers/general';
 import 'vuetify/dist/vuetify.min.css'
 

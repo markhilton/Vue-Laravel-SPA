@@ -65,4 +65,34 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return [];
     }
+
+    /**
+     * Register new user
+     *
+     * @return array
+     */
+    public static function register($payload)
+    {
+        $user = self::create([
+            'name'      => $payload['name'],
+            'email'     => $payload['email'],
+            'password'  => bcrypt($payload['password']),
+            'photo_url' => self::getAvatar($payload['email']),
+        ]);
+
+        return $user;
+    }
+
+    /**
+     * Return gravatar image string associated with user email
+     * https://stackoverflow.com/questions/23724887/how-do-i-implement-gravatar-in-laravel
+     *
+     * @return array
+     */
+    private static function getAvatar($email)
+    {
+        $hash = md5(strtolower(trim($email)));
+
+        return 'http://www.gravatar.com/avatar/' . $hash;
+    }
 }
