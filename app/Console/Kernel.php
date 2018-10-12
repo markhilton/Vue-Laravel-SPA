@@ -30,6 +30,14 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->appendOutputTo('/tmp/stdout.log')
         ;
+
+        // https://laravel.com/docs/5.6/horizon#notifications
+        $schedule->command('site:create')
+            ->everyMinute()
+            ->onOneServer()
+            ->withoutOverlapping()
+            ->appendOutputTo('/tmp/stdout.log')
+        ;
     }
 
     /**

@@ -242,6 +242,19 @@
 				}]
 			}
 		},
+		mounted() {
+			var channel = pusher.subscribe('site-status');
+
+			// reload site's list if one of the sites got updated
+			channel.bind('App\\Events\\SiteUpdated', ({ site }) => {
+				self = this
+				this.dataItems.forEach(function(item) {
+					if (item._id == site._id) {
+						self.getDataFromApi()
+					}
+				});
+			});
+		},
 		watch: {
 			pagination: {
 				handler() {
