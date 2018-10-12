@@ -7,7 +7,7 @@ steps:
 # build docker image
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build',
-          '--build-arg', 'TOKEN=${_OAUTH_TOKEN}', 
+          '--build-arg', 'TOKEN=${_OAUTH_TOKEN}',
           '--build-arg', 'MIX_PUSHER_APP_KEY=${_MIX_PUSHER_APP_KEY}',
           '--build-arg', 'MIX_PUSHER_APP_CLUSTER=${_MIX_PUSHER_APP_CLUSTER}',
           '-t', '$_APP_CONTAINER:$BRANCH_NAME$TAG_NAME', '.' ]
@@ -70,3 +70,5 @@ substitutions:
     _WEBHOOK_URL:   slack_notification_webhook  # slack notifications
     _OAUTH_TOKEN:   composer_github_oauth_token # access to private code repos
     _APP_CONTAINER: index.docker.io/crunchgeek/laravel-spa # docker container registry path
+    _MIX_PUSHER_APP_KEY: none
+    _MIX_PUSHER_APP_CLUSTER: none
