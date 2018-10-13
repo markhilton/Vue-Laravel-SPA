@@ -155,9 +155,9 @@
 </template>
 
 <script>
-	import SiteCreate from './create';
-	import SiteUpdate from './update';
-	import SiteDelete from './delete';
+	import SiteCreate  from './create';
+	import SiteUpdate  from './update';
+	import SiteDelete  from './delete';
 	import TableHeader from '../shared/TableHeader';
 
 	export default {
@@ -166,31 +166,31 @@
 		data () {
 			return {
 				site_id: null,
-				createSite: false,
-				deleteSite: false,
+				createSite:  false,
+				deleteSite:  false,
 				snackbar:    false, // https://vuetifyjs.com/en/components/snackbars
 				search:      '',
 				error:       false,
 				statuses: {
 					active: {
-						name: "Site's OK",
+						name:  "Site's OK",
 						color: 'success',
-						icon: 'thumb_up'
+						icon:  'thumb_up'
 					},
 					pending: {
-						name: "Site update in progress...",
+						name:  "Site update in progress...",
 						color: 'primary',
-						icon: 'fa-spinner fa-spin'
+						icon:  'fa-spinner fa-spin'
 					},
 					disabled: {
-						name: "Site is disabled",
+						name:  "Site is disabled",
 						color: 'warning',
-						icon: 'pause'
+						icon:  'pause'
 					},
 					error: {
-						name: "Problem with the site",
+						name:  "Problem with the site",
 						color: 'error',
-						icon: 'report'
+						icon:  'report'
 					},
 				},
 				loading:     true,
@@ -243,17 +243,20 @@
 			}
 		},
 		mounted() {
-			var channel = pusher.subscribe('site-status');
+			if (process.env.MIX_PUSHER_APP_KEY)
+			{
+				var channel = pusher.subscribe('site-status');
 
-			// reload site's list if one of the sites got updated
-			channel.bind('App\\Events\\SiteUpdated', ({ site }) => {
-				self = this
-				this.dataItems.forEach(function(item) {
-					if (item._id == site._id) {
-						self.getDataFromApi()
-					}
+				// reload site's list if one of the sites got updated
+				channel.bind('App\\Events\\SiteUpdated', ({ site }) => {
+					self = this
+					this.dataItems.forEach(function(item) {
+						if (item._id == site._id) {
+							self.getDataFromApi()
+						}
+					});
 				});
-			});
+			}
 		},
 		watch: {
 			pagination: {

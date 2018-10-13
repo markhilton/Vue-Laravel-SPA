@@ -117,17 +117,4 @@ class AuthController extends Controller
 
         return $user;
     }
-
-    /**
-     * Return gravatar image string associated with user email
-     * https://stackoverflow.com/questions/23724887/how-do-i-implement-gravatar-in-laravel
-     *
-     * @return array
-     */
-    private function getAvatar($email)
-    {
-        $hash = md5(strtolower(trim($email)));
-        return 'http://www.gravatar.com/avatar/' . $hash;
-    }
-
 }
