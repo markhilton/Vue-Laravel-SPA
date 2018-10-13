@@ -93,6 +93,6 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         $hash = md5(strtolower(trim($email)));
 
-        return 'http://www.gravatar.com/avatar/' . $hash;
+        return 'https://www.gravatar.com/avatar/' . $hash;
     }
 }

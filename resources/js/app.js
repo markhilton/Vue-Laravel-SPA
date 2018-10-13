@@ -17,22 +17,22 @@ Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
-/*
+/**
  * pusher & echo
+ * for push notifications
  *
  */
-
-// push notifications
-window.Pusher.logToConsole = true;
-window.pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY);
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key:         process.env.MIX_PUSHER_APP_KEY,
-    cluster:     process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted:   true
-});
-
+if (process.env.MIX_PUSHER_APP_KEY)
+{
+    window.Pusher.logToConsole = true;
+    window.pusher = new Pusher(process.env.MIX_PUSHER_APP_KEY);
+    window.Echo   = new Echo({
+        broadcaster: 'pusher',
+        key:         process.env.MIX_PUSHER_APP_KEY,
+        cluster:     process.env.MIX_PUSHER_APP_CLUSTER,
+        encrypted:   true
+    });
+}
 
 // Vuex store
 const store  = new Vuex.Store(StoreData);
